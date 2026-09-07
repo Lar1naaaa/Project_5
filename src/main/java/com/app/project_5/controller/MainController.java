@@ -19,7 +19,7 @@ public class MainController {
                 projectViewController.loadProjectsData(0, 20); // Загрузка 1 страницы
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //
         }
     }
 }
