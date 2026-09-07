@@ -14,12 +14,12 @@ public class ProjectDAO {
         this.connection = connection;
     }
 
-    // Длинный метод со смешением логики и N+1 проблемой
+    // Длинный метод getAllProjects с вложенными запросами
     public List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            // Ошибка оптимизации: нет пагинации, тянет всё подряд
+            // Ошибка оптимизации: нет пагинации, загружаются все проекты
             ResultSet rs = statement.executeQuery("SELECT * FROM projects");
 
             while (rs.next()) {
@@ -28,10 +28,10 @@ public class ProjectDAO {
                 String description = rs.getString("description");
                 int priority = rs.getInt("priority");
 
-                // ОШИБКА N+1: Для КАЖДОГО проекта делается отдельный запрос в БД за задачами внутри цикла!
+                // N+1 проблема: для КАЖДОГО проекта выполняется отдельный SQL-запрос внутри цикла
                 List<Task> tasks = new ArrayList<>();
                 Statement taskStmt = connection.createStatement();
-                // Ошибка оптимизации: Конкатенация строк в SQL (SQL-инъекция)
+                // Ошибка оптимизации: конкатенация строк в SQL (нет PreparedStatement)
                 ResultSet taskRs = taskStmt.executeQuery("SELECT * FROM tasks WHERE project_id = " + id);
 
                 while (taskRs.next()) {
@@ -53,7 +53,7 @@ public class ProjectDAO {
         return projects;
     }
 
-    // Ошибка оптимизации: SQL-инъекция через конкатенацию строк
+    // Ошибка оптимизации: конкатенация строк при вставке данных
     public void addProject(String name, String description, int priority) {
         try {
             Statement statement = connection.createStatement();
