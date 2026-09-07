@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    private static final String URL = "jdbc:sqlite:project_tracker.db"; // Или параметры вашей БД
+    private static final String URL = "jdbc:sqlite:project_tracker.db";
     private static Connection connection;
 
     public static Connection getConnection() throws SQLException {
