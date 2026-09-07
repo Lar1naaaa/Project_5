@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.app.project_5.controller.ProjectController">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Список проектов" styleClass="header-text"/>
+
+    <StackPane VBox.vgrow="ALWAYS">
+        <ListView fx:id="projectListView" />
+        <ProgressIndicator fx:id="loadingIndicator" visible="false" maxHeight="50" maxWidth="50"/>
+    </StackPane>
+
+    <ProgressBar fx:id="progressBar" maxWidth="Infinity" progress="0.0"/>
+</VBox>

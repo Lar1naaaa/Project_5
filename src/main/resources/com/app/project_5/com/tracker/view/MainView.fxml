@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.app.project_5.controller.MainController"
+            stylesheets="@../css/main.css">
+
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <Menu text="Файл">
+                <MenuItem text="Выход" />
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center>
+        <!-- Подключение ProjectView.fxml через fx:include -->
+        <fx:include fx:id="projectView" source="ProjectView.fxml" />
+    </center>
+
+</BorderPane>
