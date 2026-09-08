@@ -5,13 +5,27 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    private static final String URL = "jdbc:sqlite:project_tracker.db";
-    private static Connection connection;
-
     public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(URL);
+        String url = "jdbc:mysql://localhost:3306/project5";
+        String user = "root";
+        String password = "tadar2008";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Подключение к базе данных прошло успешно!");
+            return connection;
+        } catch (SQLException e) {
+            System.out.println("Ошибка подключения к БД: " + e.getMessage());
+            throw e;
         }
-        return connection;
+    }
+    public static void main(String[] args) {
+        System.out.println("Try connection...");
+        try (Connection connection = Database.getConnection()){
+            if (connection != null && !connection.isClosed()) {
+                System.out.println("Success connection: " + connection.getMetaData());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

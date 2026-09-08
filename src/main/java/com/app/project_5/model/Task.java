@@ -25,16 +25,16 @@ public class Task {
     }
 
     public Priority getPriority() {
-        return priority;
+        return this.priority
     }
 
-    public boolean isCompleted() {
-
-    }
-
-    public long getDurationMinutes() {
-    }
-
-    public <E> List<E> idProperty() {
-    }
+//    public boolean isCompleted() {
+//
+//    }
+//
+//    public long getDurationMinutes() {
+//    }
+//
+//    public <E> List<E> idProperty() {
+//    }
 }

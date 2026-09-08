@@ -1,8 +1,6 @@
 package com.app.project_5.dao;
 
 import com.app.project_5.model.Task;
-import com.app.project_5.model.Priority;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,42 +8,55 @@ import java.util.List;
 public class TaskDAO {
     private final Connection connection;
 
+    // Конструктор принимает открытое соединение из класса Database
     public TaskDAO(Connection connection) {
         this.connection = connection;
     }
 
-    public void saveTask(Task task, long projectId) throws SQLException {
-        String sql = "INSERT INTO tasks (title, priority, completed, duration_minutes, project_id) VALUES (?, ?, ?, ?, ?)";
+    // Метод сохранения задачи
+    public void saveTask(Task task, int projectId) throws SQLException {
+        // Добавили описание (description) и статус (status) из вашей модели
+        String sql = "INSERT INTO tasks (title, priority, project_id, description, status) VALUES (?, ?, ?, ?, ?)";
+
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, task.getTitle());
-            pstmt.setInt(2, task.getPriority().getValue());
-            pstmt.setBoolean(3, task.isCompleted());
-            pstmt.setLong(4, task.getDurationMinutes());
-            pstmt.setLong(5, projectId);
+            pstmt.setInt(2, task.getPriority());    // Передаем int напрямую
+            pstmt.setInt(3, projectId);
+            pstmt.setString(4, task.getDescription());
+            pstmt.setInt(5, task.getStatus());
+
             pstmt.executeUpdate();
 
+            // Получаем сгенерированный базой данных ID
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
-                    task.idProperty().set(rs.getLong(1));
+                    // Обновляем ID в JavaFX свойстве объекта Task
+                    task.idProperty().set(rs.getInt(1));
                 }
             }
         }
     }
 
-    public List<Task> getTasksByProjectId(long projectId) throws SQLException {
+    // Метод получения списка задач по ID проекта
+    public List<Task> getTasksByProjectId(int projectId) throws SQLException {
         List<Task> tasks = new ArrayList<>();
-        String sql = "SELECT id, title, priority, completed, duration_minutes FROM tasks WHERE project_id = ?";
+        String sql = "SELECT id, project_id, title, description, status, priority FROM tasks WHERE project_id = ?";
+
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setLong(1, projectId);
+            pstmt.setInt(1, projectId);
+
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    tasks.add(new Task(
-                            rs.getLong("id"),
+                    // Создаем объект Task, используя данные из колонок таблицы MySQL
+                    Task task = new Task(
+                            rs.getInt("id"),
+                            rs.getInt("project_id"),
                             rs.getString("title"),
-                            Priority.fromValue(rs.getInt("priority")),
-                            rs.getBoolean("completed"),
-                            rs.getLong("duration_minutes")
-                    ));
+                            rs.getString("description"),
+                            rs.getInt("status"),
+                            rs.getInt("priority")
+                    );
+                    tasks.add(task);
                 }
             }
         }

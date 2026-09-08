@@ -11,15 +11,11 @@ public class MainController {
     @FXML private ProjectController projectViewController; // Встроенный контроллер ProjectView
 
     @FXML
-    public void initialize() {
-        try {
-            ProjectDAO projectDAO = new ProjectDAO(Database.getConnection());
-            if (projectViewController != null) {
-                projectViewController.setProjectDAO(projectDAO);
-                projectViewController.loadProjectsData(0, 20); // Загрузка 1 страницы
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); //
+    public void initialize() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO(Database.getConnection());
+        if (projectViewController != null) {
+            projectViewController.setProjectDAO(projectDAO);
+            projectViewController.loadProjectsData(0, 20); // Загрузка 1 страницы
         }
     }
 }
