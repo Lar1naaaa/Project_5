@@ -20,13 +20,13 @@ public class Task {
         this.priority = priority;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public Priority getPriority() {
-        return this.priority
-    }
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public Priority getPriority() {
+//        return this.priority
+//    }
 
 //    public boolean isCompleted() {
 //
