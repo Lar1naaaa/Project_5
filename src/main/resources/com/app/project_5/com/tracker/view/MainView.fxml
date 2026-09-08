@@ -5,7 +5,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.app.project_5.controller.MainController"
-            stylesheets="@../css/main.css">
+            stylesheets="C:\Users\eliza\IdeaProjects\Project_5\src\main\resources\css\main.css">
 
     <top>
         <MenuBar BorderPane.alignment="CENTER">

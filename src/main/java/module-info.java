@@ -1,12 +1,11 @@
 module com.app.project_5 {
     requires javafx.controls;
     requires javafx.fxml;
-
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires org.kordamp.bootstrapfx.core;
     requires java.sql;
 
-    opens com.app.project_5 to javafx.fxml;
+    opens com.app.project_5.controller to javafx.fxml;
+    opens com.app.project_5.model to javafx.base;
+    requires java.sql;
+
     exports com.app.project_5;
 }
